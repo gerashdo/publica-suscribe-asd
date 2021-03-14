@@ -136,6 +136,7 @@ class XiaomiMyBand:
 
         time.sleep(1)
 
+        message={}
         message['blood_preasure'] = self.simulate_blood_preasure()
         message['id'] = str(self.id)
         message['datetime'] = self.simulate_datetime()
@@ -152,17 +153,58 @@ class XiaomiMyBand:
             delivery_mode=2,))  # Se realiza la publicación del mensaje en el Distribuidor de Mensajes
         connection.close()  # Se cierra la conexión
 
+        time.sleep(1)
+        
+        message={}
+        message['accelerometerX']=self.simulate_x_position()
+        message['accelerometerY']=self.simulate_y_position()
+        message['accelerometerZ']=self.simulate_z_position()
+        message['id'] = str(self.id)
+        message['datetime'] = self.simulate_datetime()
+        message['producer'] = self.producer
+        message['model'] = self.model
+        message['hardware_version'] = self.hardware_version
+        message['software_version'] = self.software_version
+        # Se establece la conexión con el Distribuidor de Mensajes
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        # Se solicita un canal por el cuál se enviarán los signos vitales
+        channel = connection.channel()
+        channel.queue_declare(queue='accelerometer', durable=True)
+        channel.basic_publish(exchange='', routing_key='accelerometer', body=str(message), properties=pika.BasicProperties(
+            delivery_mode=2,))  # Se realiza la publicación del mensaje en el Distribuidor de Mensajes
+        connection.close()  # Se cierra la conexión
+        
+        time.sleep(1)
+        
+        message={}
+        message['time'] = self.simulate_alarm()
+        message['id'] = str(self.id)
+        message['datetime'] = self.simulate_datetime()
+        message['producer'] = self.producer
+        message['model'] = self.model
+        message['hardware_version'] = self.hardware_version
+        message['software_version'] = self.software_version
+        # Se establece la conexión con el Distribuidor de Mensajes
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        # Se solicita un canal por el cuál se enviarán los signos vitales
+        channel = connection.channel()
+        channel.queue_declare(queue='time', durable=True)
+        channel.basic_publish(exchange='', routing_key='time', body=str(message), properties=pika.BasicProperties(
+            delivery_mode=2,))  # Se realiza la publicación del mensaje en el Distribuidor de Mensajes
+        connection.close()  # Se cierra la conexión
+
+
     def simulate_datetime(self):
         return time.strftime("%d:%m:%Y:%H:%M:%S")
 
     def simulate_x_position(self):
-        return random.uniform(0, 1)
+        return random.uniform(-1, 1)
 
     def simulate_y_position(self):
-        return random.uniform(0, 1)
+        return random.uniform(-1, 1)
 
     def simulate_z_position(self):
-        return random.uniform(0, 1)
+        return random.uniform(-1, 1)
 
     def simulate_body_temperature(self):
         return random.uniform(67, 72)
@@ -187,3 +229,8 @@ class XiaomiMyBand:
 
     def simulate_blood_preasure(self):
         return random.randint(100, 200)
+    
+    def simulate_alarm(self):
+        return time.strftime("%H:%M")
+        
+        

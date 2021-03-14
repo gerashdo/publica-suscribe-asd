@@ -54,6 +54,14 @@ class Monitor:
         print("")
         print("")
 
+    def print_medicament_alert(self,datetime,id,type,med_name,dosis,model):
+        print("  ---------------------------------------------------")
+        print("    ADVERTENCIA")
+        print("  ---------------------------------------------------")
+        print("    Es hora de aplicar el medicamento  ("+str(datetime)+") "+str(med_name)+", con dosis de "+str(dosis)+" en el adulto que utiliza el dispositivo "+str(model)+":"+str(id))
+        print("")
+        print("")
+
     def format_datetime(self, datetime):
         values_datetime = datetime.split(':')
         f_datetime = values_datetime[3] + ":" + values_datetime[4] + " del " + \
