@@ -4,8 +4,8 @@
 #-------------------------------------------------------------------------
 # Archivo: xiaomi_my_band.py
 # Capitulo: 3 Patrón Publica-Subscribe
-# Autor(es): Perla Velasco & Yonathan Mtz.
-# Version: 1.0.1 Mayo 2017
+# Autor(es): Perla Velasco,Yonathan Mtz & Team asd.
+# Version: 1.0.2 Marzo 2021
 # Descripción:
 #
 #   Ésta clase define el rol de un publicador, es decir, es un componente que envia mensajes.
@@ -77,6 +77,8 @@
 #           |                             |          Ninguno         |  - Simula la presión  |
 #           | simulate_blood_preasure()   |                          |    arterial.          |
 #           +-----------------------------+--------------------------+-----------------------+
+#           | simulate_alarm()            |          Ninguno         |  - Simula la hora en  |
+#           |                             |                          |    formato HH:MM      |
 #
 #-------------------------------------------------------------------------
 import pika

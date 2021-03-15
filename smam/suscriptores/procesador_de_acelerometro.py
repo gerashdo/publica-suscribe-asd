@@ -1,30 +1,28 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #-------------------------------------------------------------------------
-# Archivo: procesador_de_presion.py
+# Archivo: procesador_de_aceloremtro.py
 # Capitulo: 3 Estilo Publica-Subscribe
-# Autor(es): Perla Velasco & Yonathan Mtz.
-# Version: 2.0.1 Mayo 2017
+# Autor(es): Perla Velasco, Yonathan Mtz & Team ASD.
+# Version: 2.0.2 Marzo 2021 
 # Descripción:
 #
 #   Esta clase define el rol de un suscriptor, es decir, es un componente que recibe mensajes.
 #
 #   Las características de ésta clase son las siguientes:
 #
-#                                     procesador_de_presion.py
+#                                     procesador_de_acelerometro.py
 #           +-----------------------+-------------------------+------------------------+
 #           |  Nombre del elemento  |     Responsabilidad     |      Propiedades       |
 #           +-----------------------+-------------------------+------------------------+
 #           |                       |                         |  - Se suscribe a los   |
 #           |                       |                         |    eventos generados   |
-#           |                       |  - Procesar valores     |    por el wearable     |
-#           |     Procesador de     |    extremos de la       |    Xiaomi My Band.     |
-#           |        Presión        |    presión arterial.    |  - Define el valor ex- |
-#           |                       |                         |    tremo de la presión |
-#           |                       |                         |    arterial en 110.    |
+#           |                       |  - Detectar la posicion |    por el wearable     |
+#           |     Procesador de     |    o movimiento del     |    Xiaomi My Band.     |
+#           |       acelerometro    |    adulto.              |                        |
 #           |                       |                         |  - Notifica al monitor |
-#           |                       |                         |    cuando un valor ex- |
-#           |                       |                         |    tremo es detectado. |
+#           |                       |                         |    la posicion del     |
+#           |                       |                         |    adulto.             |
 #           +-----------------------+-------------------------+------------------------+
 #
 #   A continuación se describen los métodos que se implementaron en ésta clase:
@@ -33,15 +31,15 @@
 #           +------------------------+--------------------------+-----------------------+
 #           |         Nombre         |        Parámetros        |        Función        |
 #           +------------------------+--------------------------+-----------------------+
-#           |                        |                          |  - Recibe los signos  |
-#           |       consume()        |          Ninguno         |    vitales vitales    |
-#           |                        |                          |    desde el distribui-|
-#           |                        |                          |    dor de mensajes.   |
+#           |                        |                          |  - Recibe los valores |
+#           |       consume()        |          Ninguno         |    tridimensionales   |
+#           |                        |                          |    desde el distribuidor |
+#           |                        |                          |    de mensajes        |
 #           +------------------------+--------------------------+-----------------------+
-#           |                        |  - ch: propio de Rabbit. |  - Procesa y detecta  |
-#           |                        |  - method: propio de     |    valores extremos de|
-#           |                        |     Rabbit.              |    la presión         |
-#           |       callback()       |  - properties: propio de |    arterial.          |
+#           |                        |  - ch: propio de Rabbit. |  -  Detecta los valores|
+#           |                        |  - method: propio de     |    tridimensionales   |
+#           |                        |     Rabbit.              |    y los reporta.     |
+#           |       callback()       |  - properties: propio de |                       |
 #           |                        |     Rabbit.              |                       |
 #           |                        |  - body: mensaje recibi- |                       |
 #           |                        |     do.                  |                       |
@@ -91,9 +89,7 @@ class ProcesadorAcelerometro:
         accelerometer_y=float(json_message['accelerometerY'])
         accelerometer_z=float(json_message['accelerometerZ'])
         monitor=Monitor()
-        if (accelerometer_y < 0.2):
-            ## Se cayo 
-            monitor.print_notification(json_message['datetime'],json_message['id'],'sufrio una caida','velocidad en el acelerometro',json_message['model'])
+        monitor.print_accelerometer_data(json_message['datetime'],json_message['id'],accelerometer_x,accelerometer_y,accelerometer_z,'acelerometro',json_message['model'])
 
         time.sleep(1)
         ch.basic_ack(delivery_tag=method.delivery_tag)

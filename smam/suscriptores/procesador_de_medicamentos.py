@@ -1,30 +1,28 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #-------------------------------------------------------------------------
-# Archivo: procesador_de_presion.py
+# Archivo: procesador_de_medicamentos.py
 # Capitulo: 3 Estilo Publica-Subscribe
-# Autor(es): Perla Velasco & Yonathan Mtz.
-# Version: 2.0.1 Mayo 2017
+# Autor(es): Perla Velasco, Yonathan Mtz & Team asd.
+# Version: 2.0.2 Marzo 2021
 # Descripción:
 #
 #   Esta clase define el rol de un suscriptor, es decir, es un componente que recibe mensajes.
 #
 #   Las características de ésta clase son las siguientes:
 #
-#                                     procesador_de_presion.py
+#                                     procesador_de_medicamentos.py
 #           +-----------------------+-------------------------+------------------------+
 #           |  Nombre del elemento  |     Responsabilidad     |      Propiedades       |
 #           +-----------------------+-------------------------+------------------------+
 #           |                       |                         |  - Se suscribe a los   |
 #           |                       |                         |    eventos generados   |
-#           |                       |  - Procesar valores     |    por el wearable     |
-#           |     Procesador de     |    extremos de la       |    Xiaomi My Band.     |
-#           |        Presión        |    presión arterial.    |  - Define el valor ex- |
-#           |                       |                         |    tremo de la presión |
-#           |                       |                         |    arterial en 110.    |
+#           |                       |  - Procesa los horarios |    por el wearable     |
+#           |     Procesador de     |  para la administración |    Xiaomi My Band.     |
+#           |        medicamentos   |   de medicamentos       |                        |
 #           |                       |                         |  - Notifica al monitor |
-#           |                       |                         |    cuando un valor ex- |
-#           |                       |                         |    tremo es detectado. |
+#           |                       |                         |    cuando es hora de   |
+#           |                       |                         |    sumistrar algun medicamento.|
 #           +-----------------------+-------------------------+------------------------+
 #
 #   A continuación se describen los métodos que se implementaron en ésta clase:
@@ -33,16 +31,16 @@
 #           +------------------------+--------------------------+-----------------------+
 #           |         Nombre         |        Parámetros        |        Función        |
 #           +------------------------+--------------------------+-----------------------+
-#           |                        |                          |  - Recibe los signos  |
-#           |       consume()        |          Ninguno         |    vitales vitales    |
-#           |                        |                          |    desde el distribui-|
-#           |                        |                          |    dor de mensajes.   |
+#           |                        |                          |  - Recibe la hora     |
+#           |       consume()        |          Ninguno         |    actual del Xiaomi  |
+#           |                        |                          |    My Band            |
+#           |                        |                          |                       |
 #           +------------------------+--------------------------+-----------------------+
-#           |                        |  - ch: propio de Rabbit. |  - Procesa y detecta  |
-#           |                        |  - method: propio de     |    valores extremos de|
-#           |                        |     Rabbit.              |    la presión         |
-#           |       callback()       |  - properties: propio de |    arterial.          |
-#           |                        |     Rabbit.              |                       |
+#           |                        |  - ch: propio de Rabbit. |  - Detecta si en la hora |
+#           |                        |  - method: propio de     |   actual hay algun    |
+#           |                        |     Rabbit.              |   medicmamento que deba|
+#           |       callback()       |  - properties: propio de |   suminstrarse y      |       
+#           |                        |     Rabbit.              |   notifica al monitor |
 #           |                        |  - body: mensaje recibi- |                       |
 #           |                        |     do.                  |                       |
 #           +------------------------+--------------------------+-----------------------+
@@ -106,6 +104,8 @@ class ProcesadorMedicamento:
         
         medicamento = self.medicamentos[medicament_id]
         horario = self.horarios_medicamentos[medicament_id]
+        
+        ## si la hora es las 12:00 am, en el formato que lo regresa el My band es 00:00, en este caso, la cambiamos por un 24.
         if hora[0]=='00':
             hora[0] ='24'
 
