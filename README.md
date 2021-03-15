@@ -8,7 +8,7 @@ La fundación Catalina Huffmann, que es una fundación altruista en la región, 
 
 En la siguiente figura se muestra el diseño de la propuesta de solución del departamento de desarrollo para el SMAM.
 
-![Vista de contenedores del SMAM](docs/diagrama_contenedores_capitulo_4_v2.png)
+![Vista de contenedores del SMAM](docs/diagrama_contenedores_capitulo_4_v3.jpg)
 
 ## Prerrequisitos
 - Clonar el repositorio:
