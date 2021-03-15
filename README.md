@@ -96,7 +96,7 @@ En la siguiente figura se muestra el diseño de la propuesta de solución del de
 
 ## Versión
 
-2.1.1 - Marzo 2020
+2.2.0 - Marzo 2021
 
 ## Autores
 
