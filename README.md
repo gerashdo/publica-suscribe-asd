@@ -103,3 +103,4 @@ En la siguiente figura se muestra el diseño de la propuesta de solución del de
 * **Perla Velasco**
 * **Yonathan Martínez**
 * **Sergio Salazar**
+* **Team ASD (equipo 4)**
